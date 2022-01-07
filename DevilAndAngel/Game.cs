@@ -9,11 +9,7 @@ namespace DevilAndAngel
     enum Direction
     {
         Right,
-        RightUp,
-        RightDown,
         Left,
-        LeftUp,
-        LeftDown,
         Up,
         UpRight,
         UpLeft,
@@ -23,6 +19,8 @@ namespace DevilAndAngel
     }
     class Game
     {
-        
+        private const int Width = 1000;
+        private const int Height = 1000;
+        public int[,] Field = new int[Width, Height];
     }
 }

@@ -17,26 +17,26 @@ namespace DevilAndAngel
             Devil devil = new Devil();
             Console.WindowHeight = 51;
             Console.WindowWidth = 50;            
-            while (true)
+            while (!devil.GameWin)
             {
-                DrawField(play,angel);                
+                DrawField(play,angel.position);                
                 play.Field[angel.previos_pos.X, angel.previos_pos.Y] = 0;
                 do
                 {
                     var key = Console.ReadKey(true).Key;
                     angel.position = angel.previos_pos;
                     angel.position = SetDirection(key, angel.position);
-                } while (play.Field[angel.position.X, angel.position.Y] == 3);
+                } while (play.Field[angel.position.X, angel.position.Y] == 2);
                 play.Field[angel.position.X, angel.position.Y] = 1;
                 angel.previos_pos = angel.position;
                 DevilRound(play, devil, angel);
             }
         }
 
-        static void DrawField(Game a, Angel b)
+        static void DrawField(Game a, Point b)
         {
-            for (int x = b.position.X - 25; x < b.position.X + 26; x++)            
-                for (int y = b.position.X - 25; y < b.position.X + 26; y++)
+            for (int x = b.X - 25; x < b.X + 26; x++)            
+                for (int y = b.Y - 25; y < b.Y + 26; y++) // why X check later 
                 {
                     Console.SetCursorPosition(x % 50, y % 50);
                     if (a.Field[x, y] == 0)
@@ -44,23 +44,30 @@ namespace DevilAndAngel
                     if (a.Field[x, y] == 1)
                         Console.Write("O");
                     if (a.Field[x, y] == 2)
-                        Console.Write("@");
-                    if (a.Field[x, y] == 3)
                         Console.Write("#");
                 }                            
         }
-
         static void DevilRound(Game play,Devil devil,Angel angel)
         {            
             ConsoleKey key = ConsoleKey.Escape;
-            devil.position.X = play.screen.X * 50;
-            devil.position.Y = play.screen.Y * 50 + 1;            
+            for (int x = angel.position.X - 1; x <= angel.position.X + 1; x++) 
+            {
+                for (int y = angel.position.Y - 1; y <= angel.position.Y + 1; y++) 
+                {
+                    if (play.Field[x,y] == 0)
+                    {
+                        devil.position.X = x;
+                        devil.position.Y = y;                        
+                    }
+                }
+            }
+          
             play.Field[devil.position.X, devil.position.Y] = 2;
             devil.previos_pos = devil.position;
             bool visited = true;
             do
             {
-                DrawField(play,angel);
+                DrawField(play,devil.position);
                 key = ConsoleKey.F24;
                 while (Console.KeyAvailable)
                 {
@@ -77,7 +84,7 @@ namespace DevilAndAngel
                     visited = true;
                 }
             } while (key != ConsoleKey.Enter);
-            play.Field[devil.position.X, devil.position.Y] = 3;
+            play.Field[devil.position.X, devil.position.Y] = 2;
         }
 
         static Point SetDirection(ConsoleKey key,Point p)

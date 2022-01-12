@@ -23,8 +23,7 @@ namespace DevilAndAngel
         public int X;
         public int Y;
     }
-
-    class Angel
+    class Angel 
     {
         public Point position = new Point();
         public Point previos_pos = new Point();
@@ -35,22 +34,20 @@ namespace DevilAndAngel
             previos_pos = position;
         }   
     }
-    class Devil
+    class Devil 
     {
         public Point position = new Point();
         public Point previos_pos = new Point();
+        public bool GameWin = false;
     }
     class Game
     {
         private const int Width = 1000;
         private const int Height = 1000;
-        public Point screen = new Point();
         public int[,] Field = new int[Width, Height];                
         public Game(int x, int y)
         {
             Field[x,y] = 1;
-            screen.X = 10;
-            screen.Y = 10;
         }
     }
 }

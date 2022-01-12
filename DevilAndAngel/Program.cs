@@ -35,17 +35,23 @@ namespace DevilAndAngel
 
         static void DrawField(Game a, Point b)
         {
-            for (int x = b.X - 25; x < b.X + 26; x++)            
-                for (int y = b.Y - 25; y < b.Y + 26; y++) // why X check later 
+            int local_x = 0, local_y = 1;
+            for (int x = b.X - 25; x < b.X + 25; x++)
+            {
+                local_y = 1;
+                for (int y = b.Y - 25; y < b.Y + 25; y++)
                 {
-                    Console.SetCursorPosition(x % 50, y % 50);
+                    Console.SetCursorPosition(local_x, local_y);
                     if (a.Field[x, y] == 0)
                         Console.Write(" ");
                     if (a.Field[x, y] == 1)
                         Console.Write("O");
                     if (a.Field[x, y] == 2)
                         Console.Write("#");
-                }                            
+                    local_y++;
+                }
+                local_x++;
+            }
         }
         static void DevilRound(Game play,Devil devil,Angel angel)
         {            
